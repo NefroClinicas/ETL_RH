@@ -1,0 +1,1025 @@
+Pessoa_ID,Tempo de Casa Categoria Python
+1,1. Menos de 6 meses
+2,3. 1 Ano
+3,3. 1 Ano
+4,1. Menos de 6 meses
+5,1. Menos de 6 meses
+6,1. Menos de 6 meses
+7,6. 4 Anos
+8,2. Mais de 6 meses
+9,3. 1 Ano
+10,5. 3 Anos
+11,3. 1 Ano
+12,3. 1 Ano
+13,3. 1 Ano
+14,2. Mais de 6 meses
+15,2. Mais de 6 meses
+16,3. 1 Ano
+17,1. Menos de 6 meses
+18,4. 2 Anos
+19,3. 1 Ano
+20,5. 3 Anos
+21,5. 3 Anos
+22,4. 2 Anos
+23,4. 2 Anos
+24,2. Mais de 6 meses
+25,3. 1 Ano
+26,3. 1 Ano
+27,3. 1 Ano
+28,2. Mais de 6 meses
+29,1. Menos de 6 meses
+30,3. 1 Ano
+31,3. 1 Ano
+32,3. 1 Ano
+33,2. Mais de 6 meses
+34,2. Mais de 6 meses
+35,3. 1 Ano
+36,4. 2 Anos
+37,3. 1 Ano
+38,4. 2 Anos
+39,2. Mais de 6 meses
+40,5. 3 Anos
+41,4. 2 Anos
+42,5. 3 Anos
+43,2. Mais de 6 meses
+44,5. 3 Anos
+45,1. Menos de 6 meses
+46,4. 2 Anos
+47,2. Mais de 6 meses
+48,4. 2 Anos
+49,2. Mais de 6 meses
+50,1. Menos de 6 meses
+51,1. Menos de 6 meses
+52,1. Menos de 6 meses
+53,1. Menos de 6 meses
+54,1. Menos de 6 meses
+55,1. Menos de 6 meses
+56,3. 1 Ano
+57,1. Menos de 6 meses
+58,1. Menos de 6 meses
+59,5. 3 Anos
+60,5. 3 Anos
+61,2. Mais de 6 meses
+62,5. 3 Anos
+63,6. 4 Anos
+64,3. 1 Ano
+65,4. 2 Anos
+66,3. 1 Ano
+67,2. Mais de 6 meses
+68,3. 1 Ano
+69,3. 1 Ano
+70,3. 1 Ano
+71,3. 1 Ano
+72,1. Menos de 6 meses
+73,5. 3 Anos
+74,3. 1 Ano
+75,3. 1 Ano
+76,3. 1 Ano
+77,5. 3 Anos
+78,4. 2 Anos
+79,3. 1 Ano
+80,4. 2 Anos
+81,3. 1 Ano
+82,2. Mais de 6 meses
+83,3. 1 Ano
+84,3. 1 Ano
+85,4. 2 Anos
+86,3. 1 Ano
+87,3. 1 Ano
+88,2. Mais de 6 meses
+89,3. 1 Ano
+90,1. Menos de 6 meses
+91,5. 3 Anos
+92,3. 1 Ano
+93,2. Mais de 6 meses
+94,1. Menos de 6 meses
+95,4. 2 Anos
+96,1. Menos de 6 meses
+97,5. 3 Anos
+98,3. 1 Ano
+99,1. Menos de 6 meses
+100,1. Menos de 6 meses
+101,3. 1 Ano
+102,5. 3 Anos
+103,3. 1 Ano
+104,3. 1 Ano
+105,2. Mais de 6 meses
+106,3. 1 Ano
+107,4. 2 Anos
+108,4. 2 Anos
+109,3. 1 Ano
+110,3. 1 Ano
+111,1. Menos de 6 meses
+112,1. Menos de 6 meses
+113,5. 3 Anos
+114,3. 1 Ano
+115,4. 2 Anos
+116,3. 1 Ano
+117,4. 2 Anos
+118,3. 1 Ano
+119,3. 1 Ano
+120,1. Menos de 6 meses
+121,1. Menos de 6 meses
+122,3. 1 Ano
+123,2. Mais de 6 meses
+124,1. Menos de 6 meses
+125,1. Menos de 6 meses
+126,1. Menos de 6 meses
+127,1. Menos de 6 meses
+128,1. Menos de 6 meses
+129,5. 3 Anos
+130,3. 1 Ano
+131,3. 1 Ano
+132,3. 1 Ano
+133,3. 1 Ano
+134,1. Menos de 6 meses
+135,1. Menos de 6 meses
+136,3. 1 Ano
+137,3. 1 Ano
+138,1. Menos de 6 meses
+139,3. 1 Ano
+140,1. Menos de 6 meses
+141,3. 1 Ano
+142,3. 1 Ano
+143,2. Mais de 6 meses
+144,1. Menos de 6 meses
+145,4. 2 Anos
+146,2. Mais de 6 meses
+147,1. Menos de 6 meses
+148,5. 3 Anos
+149,5. 3 Anos
+150,3. 1 Ano
+151,1. Menos de 6 meses
+152,2. Mais de 6 meses
+153,3. 1 Ano
+154,1. Menos de 6 meses
+155,4. 2 Anos
+156,3. 1 Ano
+157,2. Mais de 6 meses
+158,1. Menos de 6 meses
+159,2. Mais de 6 meses
+160,1. Menos de 6 meses
+161,5. 3 Anos
+162,6. 4 Anos
+163,5. 3 Anos
+164,3. 1 Ano
+165,3. 1 Ano
+166,4. 2 Anos
+167,3. 1 Ano
+168,3. 1 Ano
+169,2. Mais de 6 meses
+170,3. 1 Ano
+171,1. Menos de 6 meses
+172,3. 1 Ano
+173,1. Menos de 6 meses
+174,3. 1 Ano
+175,1. Menos de 6 meses
+176,3. 1 Ano
+177,2. Mais de 6 meses
+178,3. 1 Ano
+179,1. Menos de 6 meses
+180,2. Mais de 6 meses
+181,1. Menos de 6 meses
+182,1. Menos de 6 meses
+183,1. Menos de 6 meses
+184,2. Mais de 6 meses
+185,1. Menos de 6 meses
+186,2. Mais de 6 meses
+187,3. 1 Ano
+188,3. 1 Ano
+189,1. Menos de 6 meses
+190,5. 3 Anos
+191,3. 1 Ano
+192,3. 1 Ano
+193,3. 1 Ano
+194,3. 1 Ano
+195,3. 1 Ano
+196,2. Mais de 6 meses
+197,2. Mais de 6 meses
+198,3. 1 Ano
+199,1. Menos de 6 meses
+200,2. Mais de 6 meses
+201,3. 1 Ano
+202,6. 4 Anos
+203,1. Menos de 6 meses
+204,4. 2 Anos
+205,4. 2 Anos
+206,4. 2 Anos
+207,1. Menos de 6 meses
+208,4. 2 Anos
+209,4. 2 Anos
+210,2. Mais de 6 meses
+211,5. 3 Anos
+212,3. 1 Ano
+213,1. Menos de 6 meses
+214,4. 2 Anos
+215,1. Menos de 6 meses
+216,3. 1 Ano
+217,6. 4 Anos
+218,1. Menos de 6 meses
+219,2. Mais de 6 meses
+220,2. Mais de 6 meses
+221,2. Mais de 6 meses
+222,1. Menos de 6 meses
+223,1. Menos de 6 meses
+224,1. Menos de 6 meses
+225,2. Mais de 6 meses
+226,1. Menos de 6 meses
+227,1. Menos de 6 meses
+228,5. 3 Anos
+229,1. Menos de 6 meses
+230,1. Menos de 6 meses
+231,1. Menos de 6 meses
+232,1. Menos de 6 meses
+233,1. Menos de 6 meses
+234,4. 2 Anos
+235,1. Menos de 6 meses
+236,2. Mais de 6 meses
+237,2. Mais de 6 meses
+238,1. Menos de 6 meses
+239,6. 4 Anos
+240,2. Mais de 6 meses
+241,1. Menos de 6 meses
+242,1. Menos de 6 meses
+243,5. 3 Anos
+244,3. 1 Ano
+245,2. Mais de 6 meses
+246,1. Menos de 6 meses
+247,1. Menos de 6 meses
+248,6. 4 Anos
+249,4. 2 Anos
+250,3. 1 Ano
+251,2. Mais de 6 meses
+252,1. Menos de 6 meses
+253,1. Menos de 6 meses
+254,1. Menos de 6 meses
+255,3. 1 Ano
+256,1. Menos de 6 meses
+257,2. Mais de 6 meses
+258,4. 2 Anos
+259,1. Menos de 6 meses
+260,2. Mais de 6 meses
+261,1. Menos de 6 meses
+262,4. 2 Anos
+263,1. Menos de 6 meses
+264,6. 4 Anos
+265,3. 1 Ano
+266,1. Menos de 6 meses
+267,1. Menos de 6 meses
+268,1. Menos de 6 meses
+269,2. Mais de 6 meses
+270,3. 1 Ano
+271,4. 2 Anos
+272,2. Mais de 6 meses
+273,1. Menos de 6 meses
+274,4. 2 Anos
+275,1. Menos de 6 meses
+276,4. 2 Anos
+277,4. 2 Anos
+278,1. Menos de 6 meses
+279,1. Menos de 6 meses
+280,1. Menos de 6 meses
+281,4. 2 Anos
+282,1. Menos de 6 meses
+283,2. Mais de 6 meses
+284,1. Menos de 6 meses
+285,4. 2 Anos
+286,4. 2 Anos
+287,3. 1 Ano
+288,3. 1 Ano
+289,1. Menos de 6 meses
+290,3. 1 Ano
+291,2. Mais de 6 meses
+292,1. Menos de 6 meses
+293,4. 2 Anos
+294,4. 2 Anos
+295,1. Menos de 6 meses
+296,1. Menos de 6 meses
+297,1. Menos de 6 meses
+298,2. Mais de 6 meses
+299,2. Mais de 6 meses
+300,1. Menos de 6 meses
+301,2. Mais de 6 meses
+302,4. 2 Anos
+303,5. 3 Anos
+304,2. Mais de 6 meses
+305,1. Menos de 6 meses
+306,3. 1 Ano
+307,2. Mais de 6 meses
+308,6. 4 Anos
+309,3. 1 Ano
+310,1. Menos de 6 meses
+311,6. 4 Anos
+312,4. 2 Anos
+313,1. Menos de 6 meses
+314,1. Menos de 6 meses
+315,3. 1 Ano
+316,1. Menos de 6 meses
+317,3. 1 Ano
+318,3. 1 Ano
+319,6. 4 Anos
+320,6. 4 Anos
+321,1. Menos de 6 meses
+322,1. Menos de 6 meses
+323,4. 2 Anos
+324,2. Mais de 6 meses
+325,4. 2 Anos
+326,1. Menos de 6 meses
+327,1. Menos de 6 meses
+328,2. Mais de 6 meses
+329,2. Mais de 6 meses
+330,1. Menos de 6 meses
+331,1. Menos de 6 meses
+332,1. Menos de 6 meses
+333,1. Menos de 6 meses
+334,6. 4 Anos
+335,2. Mais de 6 meses
+336,2. Mais de 6 meses
+337,1. Menos de 6 meses
+338,2. Mais de 6 meses
+339,1. Menos de 6 meses
+340,6. 4 Anos
+341,1. Menos de 6 meses
+342,4. 2 Anos
+343,1. Menos de 6 meses
+344,3. 1 Ano
+345,1. Menos de 6 meses
+346,2. Mais de 6 meses
+347,4. 2 Anos
+348,4. 2 Anos
+349,1. Menos de 6 meses
+350,4. 2 Anos
+351,1. Menos de 6 meses
+352,2. Mais de 6 meses
+353,3. 1 Ano
+354,1. Menos de 6 meses
+355,1. Menos de 6 meses
+356,2. Mais de 6 meses
+357,3. 1 Ano
+358,3. 1 Ano
+359,1. Menos de 6 meses
+360,2. Mais de 6 meses
+361,2. Mais de 6 meses
+362,1. Menos de 6 meses
+363,4. 2 Anos
+364,1. Menos de 6 meses
+365,1. Menos de 6 meses
+366,2. Mais de 6 meses
+367,1. Menos de 6 meses
+368,3. 1 Ano
+369,3. 1 Ano
+370,2. Mais de 6 meses
+371,4. 2 Anos
+372,1. Menos de 6 meses
+373,4. 2 Anos
+374,4. 2 Anos
+375,3. 1 Ano
+376,2. Mais de 6 meses
+377,4. 2 Anos
+378,3. 1 Ano
+379,1. Menos de 6 meses
+380,3. 1 Ano
+381,4. 2 Anos
+382,1. Menos de 6 meses
+383,1. Menos de 6 meses
+384,1. Menos de 6 meses
+385,1. Menos de 6 meses
+386,2. Mais de 6 meses
+387,4. 2 Anos
+388,1. Menos de 6 meses
+389,3. 1 Ano
+390,1. Menos de 6 meses
+391,1. Menos de 6 meses
+392,2. Mais de 6 meses
+393,2. Mais de 6 meses
+394,4. 2 Anos
+395,1. Menos de 6 meses
+396,4. 2 Anos
+397,1. Menos de 6 meses
+398,3. 1 Ano
+399,2. Mais de 6 meses
+400,2. Mais de 6 meses
+401,4. 2 Anos
+402,5. 3 Anos
+403,6. 4 Anos
+404,1. Menos de 6 meses
+405,1. Menos de 6 meses
+406,4. 2 Anos
+407,1. Menos de 6 meses
+408,3. 1 Ano
+409,1. Menos de 6 meses
+410,2. Mais de 6 meses
+411,3. 1 Ano
+412,2. Mais de 6 meses
+413,1. Menos de 6 meses
+414,2. Mais de 6 meses
+415,1. Menos de 6 meses
+416,4. 2 Anos
+417,1. Menos de 6 meses
+418,1. Menos de 6 meses
+419,2. Mais de 6 meses
+420,2. Mais de 6 meses
+421,6. 4 Anos
+422,2. Mais de 6 meses
+423,2. Mais de 6 meses
+424,1. Menos de 6 meses
+425,4. 2 Anos
+426,2. Mais de 6 meses
+427,1. Menos de 6 meses
+428,1. Menos de 6 meses
+429,4. 2 Anos
+430,1. Menos de 6 meses
+431,3. 1 Ano
+432,1. Menos de 6 meses
+433,1. Menos de 6 meses
+434,4. 2 Anos
+435,6. 4 Anos
+436,2. Mais de 6 meses
+437,1. Menos de 6 meses
+438,1. Menos de 6 meses
+439,4. 2 Anos
+440,2. Mais de 6 meses
+441,2. Mais de 6 meses
+442,6. 4 Anos
+443,3. 1 Ano
+444,3. 1 Ano
+445,5. 3 Anos
+446,1. Menos de 6 meses
+447,6. 4 Anos
+448,4. 2 Anos
+449,1. Menos de 6 meses
+450,4. 2 Anos
+451,2. Mais de 6 meses
+452,1. Menos de 6 meses
+453,1. Menos de 6 meses
+454,1. Menos de 6 meses
+455,3. 1 Ano
+456,4. 2 Anos
+457,1. Menos de 6 meses
+458,1. Menos de 6 meses
+459,2. Mais de 6 meses
+460,1. Menos de 6 meses
+461,1. Menos de 6 meses
+462,1. Menos de 6 meses
+463,1. Menos de 6 meses
+464,1. Menos de 6 meses
+465,1. Menos de 6 meses
+466,1. Menos de 6 meses
+467,1. Menos de 6 meses
+468,3. 1 Ano
+469,1. Menos de 6 meses
+470,1. Menos de 6 meses
+471,1. Menos de 6 meses
+472,3. 1 Ano
+473,2. Mais de 6 meses
+474,5. 3 Anos
+475,1. Menos de 6 meses
+476,3. 1 Ano
+477,2. Mais de 6 meses
+478,1. Menos de 6 meses
+479,1. Menos de 6 meses
+480,6. 4 Anos
+481,3. 1 Ano
+482,3. 1 Ano
+483,4. 2 Anos
+484,1. Menos de 6 meses
+485,4. 2 Anos
+486,5. 3 Anos
+487,6. 4 Anos
+488,2. Mais de 6 meses
+489,1. Menos de 6 meses
+490,4. 2 Anos
+491,2. Mais de 6 meses
+492,5. 3 Anos
+493,5. 3 Anos
+494,4. 2 Anos
+495,1. Menos de 6 meses
+496,2. Mais de 6 meses
+497,3. 1 Ano
+498,5. 3 Anos
+499,4. 2 Anos
+500,4. 2 Anos
+501,4. 2 Anos
+502,3. 1 Ano
+503,5. 3 Anos
+504,5. 3 Anos
+505,6. 4 Anos
+506,7. 5 Anos ou Mais
+507,2. Mais de 6 meses
+508,3. 1 Ano
+509,4. 2 Anos
+510,5. 3 Anos
+511,5. 3 Anos
+512,3. 1 Ano
+513,2. Mais de 6 meses
+514,2. Mais de 6 meses
+515,2. Mais de 6 meses
+516,5. 3 Anos
+517,4. 2 Anos
+518,1. Menos de 6 meses
+519,4. 2 Anos
+520,3. 1 Ano
+521,4. 2 Anos
+522,5. 3 Anos
+523,3. 1 Ano
+524,5. 3 Anos
+525,3. 1 Ano
+526,2. Mais de 6 meses
+527,3. 1 Ano
+528,5. 3 Anos
+529,5. 3 Anos
+530,7. 5 Anos ou Mais
+531,5. 3 Anos
+532,3. 1 Ano
+533,4. 2 Anos
+534,5. 3 Anos
+535,7. 5 Anos ou Mais
+536,1. Menos de 6 meses
+537,5. 3 Anos
+538,5. 3 Anos
+539,4. 2 Anos
+540,3. 1 Ano
+541,5. 3 Anos
+542,5. 3 Anos
+543,5. 3 Anos
+544,5. 3 Anos
+545,2. Mais de 6 meses
+546,2. Mais de 6 meses
+547,3. 1 Ano
+548,5. 3 Anos
+549,4. 2 Anos
+550,4. 2 Anos
+551,3. 1 Ano
+552,3. 1 Ano
+553,4. 2 Anos
+554,4. 2 Anos
+555,3. 1 Ano
+556,6. 4 Anos
+557,6. 4 Anos
+558,4. 2 Anos
+559,4. 2 Anos
+560,4. 2 Anos
+561,4. 2 Anos
+562,3. 1 Ano
+563,1. Menos de 6 meses
+564,4. 2 Anos
+565,2. Mais de 6 meses
+566,5. 3 Anos
+567,3. 1 Ano
+568,3. 1 Ano
+569,7. 5 Anos ou Mais
+570,1. Menos de 6 meses
+571,4. 2 Anos
+572,4. 2 Anos
+573,1. Menos de 6 meses
+574,1. Menos de 6 meses
+575,3. 1 Ano
+576,3. 1 Ano
+577,3. 1 Ano
+578,7. 5 Anos ou Mais
+579,3. 1 Ano
+580,5. 3 Anos
+581,3. 1 Ano
+582,3. 1 Ano
+583,3. 1 Ano
+584,7. 5 Anos ou Mais
+585,4. 2 Anos
+586,4. 2 Anos
+587,1. Menos de 6 meses
+588,5. 3 Anos
+589,4. 2 Anos
+590,3. 1 Ano
+591,2. Mais de 6 meses
+592,5. 3 Anos
+593,5. 3 Anos
+594,1. Menos de 6 meses
+595,3. 1 Ano
+596,2. Mais de 6 meses
+597,4. 2 Anos
+598,4. 2 Anos
+599,5. 3 Anos
+600,6. 4 Anos
+601,3. 1 Ano
+602,4. 2 Anos
+603,3. 1 Ano
+604,2. Mais de 6 meses
+605,6. 4 Anos
+606,2. Mais de 6 meses
+607,4. 2 Anos
+608,3. 1 Ano
+609,3. 1 Ano
+610,4. 2 Anos
+611,3. 1 Ano
+612,4. 2 Anos
+613,7. 5 Anos ou Mais
+614,4. 2 Anos
+615,5. 3 Anos
+616,1. Menos de 6 meses
+617,5. 3 Anos
+618,6. 4 Anos
+619,2. Mais de 6 meses
+620,4. 2 Anos
+621,5. 3 Anos
+622,2. Mais de 6 meses
+623,3. 1 Ano
+624,2. Mais de 6 meses
+625,1. Menos de 6 meses
+626,2. Mais de 6 meses
+627,5. 3 Anos
+628,5. 3 Anos
+629,3. 1 Ano
+630,3. 1 Ano
+631,3. 1 Ano
+632,3. 1 Ano
+633,5. 3 Anos
+634,5. 3 Anos
+635,2. Mais de 6 meses
+636,3. 1 Ano
+637,3. 1 Ano
+638,2. Mais de 6 meses
+639,3. 1 Ano
+640,2. Mais de 6 meses
+641,4. 2 Anos
+642,5. 3 Anos
+643,4. 2 Anos
+644,2. Mais de 6 meses
+645,3. 1 Ano
+646,3. 1 Ano
+647,3. 1 Ano
+648,1. Menos de 6 meses
+649,6. 4 Anos
+650,3. 1 Ano
+651,5. 3 Anos
+652,5. 3 Anos
+653,6. 4 Anos
+654,5. 3 Anos
+655,3. 1 Ano
+656,4. 2 Anos
+657,6. 4 Anos
+658,3. 1 Ano
+659,4. 2 Anos
+660,4. 2 Anos
+661,5. 3 Anos
+662,6. 4 Anos
+663,6. 4 Anos
+664,5. 3 Anos
+665,3. 1 Ano
+666,2. Mais de 6 meses
+667,4. 2 Anos
+668,3. 1 Ano
+669,3. 1 Ano
+670,3. 1 Ano
+671,4. 2 Anos
+672,6. 4 Anos
+673,2. Mais de 6 meses
+674,5. 3 Anos
+675,1. Menos de 6 meses
+676,3. 1 Ano
+677,4. 2 Anos
+678,4. 2 Anos
+679,4. 2 Anos
+680,3. 1 Ano
+681,5. 3 Anos
+682,4. 2 Anos
+683,5. 3 Anos
+684,2. Mais de 6 meses
+685,1. Menos de 6 meses
+686,2. Mais de 6 meses
+687,1. Menos de 6 meses
+688,5. 3 Anos
+689,4. 2 Anos
+690,2. Mais de 6 meses
+691,4. 2 Anos
+692,4. 2 Anos
+693,1. Menos de 6 meses
+694,2. Mais de 6 meses
+695,3. 1 Ano
+696,5. 3 Anos
+697,3. 1 Ano
+698,6. 4 Anos
+699,3. 1 Ano
+700,3. 1 Ano
+701,3. 1 Ano
+702,3. 1 Ano
+703,4. 2 Anos
+704,6. 4 Anos
+705,4. 2 Anos
+706,3. 1 Ano
+707,4. 2 Anos
+708,2. Mais de 6 meses
+709,4. 2 Anos
+710,5. 3 Anos
+711,3. 1 Ano
+712,6. 4 Anos
+713,3. 1 Ano
+714,6. 4 Anos
+715,3. 1 Ano
+716,7. 5 Anos ou Mais
+717,6. 4 Anos
+718,2. Mais de 6 meses
+719,4. 2 Anos
+720,5. 3 Anos
+721,4. 2 Anos
+722,4. 2 Anos
+723,7. 5 Anos ou Mais
+724,2. Mais de 6 meses
+725,5. 3 Anos
+726,2. Mais de 6 meses
+727,1. Menos de 6 meses
+728,4. 2 Anos
+729,3. 1 Ano
+730,3. 1 Ano
+731,1. Menos de 6 meses
+732,2. Mais de 6 meses
+733,7. 5 Anos ou Mais
+734,2. Mais de 6 meses
+735,4. 2 Anos
+736,5. 3 Anos
+737,4. 2 Anos
+738,3. 1 Ano
+739,3. 1 Ano
+740,2. Mais de 6 meses
+741,3. 1 Ano
+742,2. Mais de 6 meses
+743,1. Menos de 6 meses
+744,3. 1 Ano
+745,3. 1 Ano
+746,3. 1 Ano
+747,4. 2 Anos
+748,1. Menos de 6 meses
+749,5. 3 Anos
+750,2. Mais de 6 meses
+751,3. 1 Ano
+752,4. 2 Anos
+753,5. 3 Anos
+754,3. 1 Ano
+755,3. 1 Ano
+756,2. Mais de 6 meses
+757,2. Mais de 6 meses
+758,3. 1 Ano
+759,1. Menos de 6 meses
+760,2. Mais de 6 meses
+761,3. 1 Ano
+762,4. 2 Anos
+763,2. Mais de 6 meses
+764,2. Mais de 6 meses
+765,2. Mais de 6 meses
+766,1. Menos de 6 meses
+767,3. 1 Ano
+768,3. 1 Ano
+769,3. 1 Ano
+770,2. Mais de 6 meses
+771,1. Menos de 6 meses
+772,3. 1 Ano
+773,3. 1 Ano
+774,1. Menos de 6 meses
+775,3. 1 Ano
+776,2. Mais de 6 meses
+777,1. Menos de 6 meses
+778,1. Menos de 6 meses
+779,1. Menos de 6 meses
+780,1. Menos de 6 meses
+781,5. 3 Anos
+782,3. 1 Ano
+783,4. 2 Anos
+784,4. 2 Anos
+785,2. Mais de 6 meses
+786,4. 2 Anos
+787,4. 2 Anos
+788,4. 2 Anos
+789,4. 2 Anos
+790,4. 2 Anos
+791,2. Mais de 6 meses
+792,5. 3 Anos
+793,5. 3 Anos
+794,2. Mais de 6 meses
+795,2. Mais de 6 meses
+796,3. 1 Ano
+797,4. 2 Anos
+798,5. 3 Anos
+799,5. 3 Anos
+800,5. 3 Anos
+801,4. 2 Anos
+802,3. 1 Ano
+803,3. 1 Ano
+804,2. Mais de 6 meses
+805,7. 5 Anos ou Mais
+806,2. Mais de 6 meses
+807,3. 1 Ano
+808,4. 2 Anos
+809,5. 3 Anos
+810,1. Menos de 6 meses
+811,4. 2 Anos
+812,2. Mais de 6 meses
+813,1. Menos de 6 meses
+814,5. 3 Anos
+815,5. 3 Anos
+816,4. 2 Anos
+817,4. 2 Anos
+818,4. 2 Anos
+819,4. 2 Anos
+820,4. 2 Anos
+821,4. 2 Anos
+822,1. Menos de 6 meses
+823,3. 1 Ano
+824,3. 1 Ano
+825,4. 2 Anos
+826,4. 2 Anos
+827,1. Menos de 6 meses
+828,1. Menos de 6 meses
+829,2. Mais de 6 meses
+830,4. 2 Anos
+831,4. 2 Anos
+832,6. 4 Anos
+833,7. 5 Anos ou Mais
+834,4. 2 Anos
+835,4. 2 Anos
+836,5. 3 Anos
+837,5. 3 Anos
+838,4. 2 Anos
+593,5. 3 Anos
+839,4. 2 Anos
+840,6. 4 Anos
+841,5. 3 Anos
+842,4. 2 Anos
+843,4. 2 Anos
+844,2. Mais de 6 meses
+845,4. 2 Anos
+846,4. 2 Anos
+847,1. Menos de 6 meses
+848,7. 5 Anos ou Mais
+849,1. Menos de 6 meses
+850,4. 2 Anos
+851,4. 2 Anos
+852,4. 2 Anos
+853,1. Menos de 6 meses
+854,5. 3 Anos
+855,3. 1 Ano
+856,1. Menos de 6 meses
+857,5. 3 Anos
+858,4. 2 Anos
+859,2. Mais de 6 meses
+860,3. 1 Ano
+861,4. 2 Anos
+862,4. 2 Anos
+863,3. 1 Ano
+864,1. Menos de 6 meses
+865,1. Menos de 6 meses
+866,3. 1 Ano
+867,5. 3 Anos
+868,3. 1 Ano
+869,2. Mais de 6 meses
+870,4. 2 Anos
+871,4. 2 Anos
+872,4. 2 Anos
+873,2. Mais de 6 meses
+874,1. Menos de 6 meses
+875,1. Menos de 6 meses
+876,1. Menos de 6 meses
+877,4. 2 Anos
+878,4. 2 Anos
+879,1. Menos de 6 meses
+880,1. Menos de 6 meses
+416,4. 2 Anos
+881,2. Mais de 6 meses
+882,4. 2 Anos
+883,3. 1 Ano
+884,1. Menos de 6 meses
+885,3. 1 Ano
+886,4. 2 Anos
+887,3. 1 Ano
+888,4. 2 Anos
+889,4. 2 Anos
+890,1. Menos de 6 meses
+891,4. 2 Anos
+892,1. Menos de 6 meses
+893,3. 1 Ano
+894,4. 2 Anos
+895,4. 2 Anos
+896,4. 2 Anos
+897,4. 2 Anos
+898,4. 2 Anos
+899,1. Menos de 6 meses
+900,3. 1 Ano
+901,2. Mais de 6 meses
+902,3. 1 Ano
+903,1. Menos de 6 meses
+904,4. 2 Anos
+905,4. 2 Anos
+906,4. 2 Anos
+907,4. 2 Anos
+908,1. Menos de 6 meses
+909,2. Mais de 6 meses
+910,3. 1 Ano
+911,2. Mais de 6 meses
+912,5. 3 Anos
+913,1. Menos de 6 meses
+914,1. Menos de 6 meses
+915,4. 2 Anos
+916,2. Mais de 6 meses
+917,1. Menos de 6 meses
+918,3. 1 Ano
+919,1. Menos de 6 meses
+920,2. Mais de 6 meses
+921,1. Menos de 6 meses
+922,2. Mais de 6 meses
+923,1. Menos de 6 meses
+924,1. Menos de 6 meses
+925,2. Mais de 6 meses
+926,1. Menos de 6 meses
+927,2. Mais de 6 meses
+928,2. Mais de 6 meses
+929,1. Menos de 6 meses
+930,6. 4 Anos
+931,3. 1 Ano
+932,4. 2 Anos
+933,1. Menos de 6 meses
+934,1. Menos de 6 meses
+935,6. 4 Anos
+936,5. 3 Anos
+937,5. 3 Anos
+938,3. 1 Ano
+939,2. Mais de 6 meses
+940,5. 3 Anos
+941,5. 3 Anos
+942,6. 4 Anos
+943,3. 1 Ano
+944,5. 3 Anos
+945,3. 1 Ano
+946,6. 4 Anos
+947,4. 2 Anos
+948,1. Menos de 6 meses
+949,5. 3 Anos
+950,2. Mais de 6 meses
+951,1. Menos de 6 meses
+952,5. 3 Anos
+953,5. 3 Anos
+954,1. Menos de 6 meses
+955,3. 1 Ano
+956,3. 1 Ano
+957,5. 3 Anos
+958,3. 1 Ano
+959,5. 3 Anos
+960,3. 1 Ano
+961,5. 3 Anos
+962,5. 3 Anos
+963,1. Menos de 6 meses
+964,3. 1 Ano
+965,5. 3 Anos
+966,5. 3 Anos
+967,4. 2 Anos
+968,2. Mais de 6 meses
+969,3. 1 Ano
+970,4. 2 Anos
+971,2. Mais de 6 meses
+972,5. 3 Anos
+973,5. 3 Anos
+974,3. 1 Ano
+975,4. 2 Anos
+976,5. 3 Anos
+977,1. Menos de 6 meses
+978,5. 3 Anos
+979,4. 2 Anos
+980,5. 3 Anos
+981,3. 1 Ano
+982,1. Menos de 6 meses
+983,3. 1 Ano
+984,3. 1 Ano
+985,2. Mais de 6 meses
+986,5. 3 Anos
+987,5. 3 Anos
+988,1. Menos de 6 meses
+989,5. 3 Anos
+990,5. 3 Anos
+991,3. 1 Ano
+992,4. 2 Anos
+993,1. Menos de 6 meses
+994,4. 2 Anos
+995,4. 2 Anos
+996,5. 3 Anos
+997,4. 2 Anos
+998,1. Menos de 6 meses
+999,4. 2 Anos
+1000,3. 1 Ano
+1001,4. 2 Anos
+1002,4. 2 Anos
+1003,3. 1 Ano
+1004,2. Mais de 6 meses
+1005,2. Mais de 6 meses
+1006,5. 3 Anos
+1007,4. 2 Anos
+1008,4. 2 Anos
+1009,5. 3 Anos
+1010,5. 3 Anos
+1011,3. 1 Ano
+1012,4. 2 Anos
+1013,4. 2 Anos
+1014,4. 2 Anos
+1015,4. 2 Anos
+1016,3. 1 Ano
+1017,5. 3 Anos
+1018,3. 1 Ano
+1019,4. 2 Anos
+1020,4. 2 Anos
+1021,4. 2 Anos
+1022,4. 2 Anos
