@@ -237,20 +237,22 @@ def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
     print(f"\n-> Processando arquivo auxiliar: {os.path.basename(caminho_arquivo)} para a tabela {nome_tabela}")
     try:
         # Tenta ler o CSV, usando latin1 por ser comum em dados brasileiros
+        # Mantendo o sep=';' da sua última tentativa. Se a separação estiver errada,
+        # A data pode aparecer na coluna "Nome" ou "Data" com o dia da semana junto.
         df = pd.read_csv(caminho_arquivo, sep=';')
     except FileNotFoundError:
         print(f"  AVISO: Arquivo '{os.path.basename(caminho_arquivo)}' não encontrado. Pulando.")
         return None
     except Exception as e:
         try:
-            # Tenta com vírgula como separador
-            df = pd.read_csv(caminho_arquivo, sep=';')
+            # Tenta com vírgula como separador (apenas para fallback, mantendo seu bloco original)
+            df = pd.read_csv(caminho_arquivo, sep=',')
         except Exception as e:
             print(f"  ERRO CRÍTICO ao ler {os.path.basename(caminho_arquivo)} como CSV. Detalhes: {e}")
             return None
 
     # Limpeza básica e padronização das colunas
-    df.columns = df.columns.str.strip().str.replace(r'[^a-zA-Z0-9\s\(\)\%]', '', regex=True)
+    df.columns = df.columns.str.strip().str.replace(r'[^a-zA-Z0-9\s\(\)%]', '', regex=True)
     
     # Padronização da coluna Nome
     if 'Nome' in df.columns:
@@ -259,8 +261,17 @@ def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
     
     # Conversão da coluna Data
     if 'Data' in df.columns:
+        
+        # 1. REMOVER O DIA DA SEMANA (e a vírgula que o segue)
+        # O formato é: "DiaDaSemana, DD/MM/AAAA".
+        # Usamos uma expressão regular (regex) para encontrar a primeira vírgula e tudo que a precede, e substituir por uma string vazia.
+        # O padrão '.*,' busca qualquer coisa (.*) até a primeira vírgula (,) e a própria vírgula.
+        df['Data'] = df['Data'].astype(str).str.replace(r'.*,', '', regex=True).str.strip()
+        
+        # 2. CONVERSÃO FINAL PARA DATETIME
+        # O dayfirst=True é crucial para datas no formato DD/MM/AAAA.
         df['Data'] = pd.to_datetime(df['Data'], errors='coerce', dayfirst=True)
-        print("  Coluna 'Data' convertida para DateTime.")
+        print("  Coluna 'Data' limpa (dia da semana removido) e convertida para DateTime.")
         
     print(f"  Tabela '{nome_tabela}' processada com {len(df)} linhas.")
     return df
