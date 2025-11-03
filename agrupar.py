@@ -2,7 +2,8 @@ import pandas as pd
 import os
 import time
 from datetime import date
-
+import re
+from gender_guesser_br import Genero
 
 
 PASTA_ORIGEM_ONEDRIVE = r"C:\Users\LuisGuilhermeMoraesd\Nefroclinicas Serviço de Nefrologia e Dialise Ltda\Nefroclinicas - 07 - DADOS (1)"
@@ -12,35 +13,76 @@ PASTA_TRABALHO = r"C:\Users\LuisGuilhermeMoraesd\OneDrive - Nefroclinicas Servi�
 ARQUIVO_SEXO = os.path.join(PASTA_TRABALHO, "Nomes_e_Sexo_Inferido.xlsx")
 ARQUIVO_INTERMEDIARIO_CSV = os.path.join(PASTA_TRABALHO, "Base_BI_Consolidada2.csv")
 ARQUIVO_FINAL_MODELADO = os.path.join(PASTA_TRABALHO, "Base_MODELADA_PowerBI_V4.xlsx")
+# Arquivos Auxiliares (Faltas e Absenteísmo)
+ARQUIVO_FALTAS = os.path.join(PASTA_TRABALHO, "faltas.csv")
+ARQUIVO_ABS = os.path.join(PASTA_TRABALHO, "ABS.csv")
 
 
 # Lista EXATA das colunas a serem extraídas e usadas no modelo
 COLUNAS_DESEJADAS = [
 'Nome', 'Sexo','CPF', 'Empresa', 'Cadastro', 'Admissão', 'Cargo', 'C.Custo', 
 'Descrição (C.Custo)', 'Data Afastamento', 'Título Reduzido (Cargo)', 
-    'Descrição (Raça/Etnia)', 'Descrição (Cat. eSocial)', 'Causa', 
-    'Descrição (Causa)', 'Escala', 'Descrição (Escala)', 'Filial', 
-    'Apelido (Filial)', 'Código Fornecedor', 'Descrição (Motivo Alt. Salário)',
-    'Data Adicionais', 'Data Aposentadoria', 'Data Cargo', 'Data C.Custo', 
-    'Data Ult. Alt. Cat.', 'Data de Chegada', 'Data Escala', 'Data Estabilidade', 
-    'Data Escala VTR', 'Data Filial', 'Data Histórico de Contrato', 'Data Inclusão', 
-    'Data Local', 'Nascimento', 'Opção FGTS', 'Data Posto', 'Data Ass. PPR', 
-    'Data de Reintegração', 'Data Salário', 'Data Cat. SEFIP', 'Última Simulação', 
-    'Data Sindicato', 'Data FGTS', 'Data Vínculo', 'Cadastramento PIS', 
-    'Dependentes IR', 'Dependentes Saf', 'Dep. Saldo FGTS', 'Estado Civil', 
-    'Descrição (Estado Civil)', 'Instrução', 'Descrição (Instrução)', 
-    'Nome (Empresa)', 'Nome (Cadastro O. Contrato)', 'Nome (Empresa O. Contrato)',
-    'Descrição (Tipo O. Contrato)', '% Desempenho', '% Insalubridade', 
-    '% Base IR Transportista', '% ISS', '% FGTS', 'Período Pagto', 
-    'Descrição (Período Pagto)', '% Periculosidade', '% Reajuste', 
-    '% Base INSS Transportista', 'Raça/Etnia', 'Recebe 13° Salário', 'Situação', 
-    'Descrição (Situação)', 'Descrição (T. Adm)', 'Descrição (T. Contrato)'
+'Descrição (Raça/Etnia)', 'Descrição (Cat. eSocial)', 'Causa', 
+'Descrição (Causa)', 'Escala', 'Descrição (Escala)', 'Filial', 
+'Apelido (Filial)', 'Código Fornecedor', 'Descrição (Motivo Alt. Salário)',
+'Data Adicionais', 'Data Aposentadoria', 'Data Cargo', 'Data C.Custo', 
+'Data Ult. Alt. Cat.', 'Data de Chegada', 'Data Escala', 'Data Estabilidade', 
+'Data Escala VTR', 'Data Filial', 'Data Histórico de Contrato', 'Data Inclusão', 
+'Data Local', 'Nascimento', 'Opção FGTS', 'Data Posto', 'Data Ass. PPR', 
+'Data de Reintegração', 'Data Salário', 'Data Cat. SEFIP', 'Última Simulação', 
+'Data Sindicato', 'Data FGTS', 'Data Vínculo', 'Cadastramento PIS', 
+'Dependentes IR', 'Dependentes Saf', 'Dep. Saldo FGTS', 'Estado Civil', 
+'Descrição (Estado Civil)', 'Instrução', 'Descrição (Instrução)', 
+'Nome (Empresa)', 'Nome (Cadastro O. Contrato)', 'Nome (Empresa O. Contrato)',
+'Descrição (Tipo O. Contrato)', '% Desempenho', '% Insalubridade', 
+'% Base IR Transportista', '% ISS', '% FGTS', 'Período Pagto', 
+'Descrição (Período Pagto)', '% Periculosidade', '% Reajuste', 
+'% Base INSS Transportista', 'Raça/Etnia', 'Recebe 13° Salário', 'Situação', 
+'Descrição (Situação)', 'Descrição (T. Adm)', 'Descrição (T. Contrato)'
 ]
 
 
 # =======================================================================
 # 2. FUNÇÕES DE SUPORTE
 # =======================================================================
+
+# -----------------------------------------------------------------------
+# ** NOVAS FUNÇÕES DE INFERÊNCIA COPIADAS DO SEXO.PY **
+# -----------------------------------------------------------------------
+def extrair_primeiro_nome(nome_completo):
+    """Extrai e limpa o primeiro nome da string completa."""
+    if pd.isna(nome_completo):
+        return None
+    nome = str(nome_completo).strip()
+    # Limpeza agressiva: remove tudo que não for letra ou espaço
+    nome_limpo_completo = re.sub(r'[^a-zA-Z\s]', ' ', nome) 
+    palavras = [p for p in nome_limpo_completo.split() if p]
+    if not palavras:
+        return None
+    return palavras[0].capitalize()
+
+def inferir_sexo_br(primeiro_nome):
+    """Inferir o sexo usando a biblioteca gender-guesser-br (IBGE)."""
+    if not primeiro_nome:
+        return None 
+    
+    try:
+        # A API do IBGE pode falhar ou demorar. O try/except é crucial aqui.
+        resultado = Genero(primeiro_nome)() 
+        
+        # Traduz os resultados: 'masculino', 'feminino' ou 'Não Encontrado'
+        if resultado == 'masculino':
+            return 'Masculino'
+        elif resultado == 'feminino':
+            return 'Feminino'
+        else: # 'Não Encontrado'
+            return None # Retorna None para indicar que não houve sucesso
+            
+    except Exception as e:
+        # print(f"Erro ao consultar nome {primeiro_nome}: {e}") # Descomente para debug
+        return None 
+# -----------------------------------------------------------------------
+
 
 def carregar_dados_sexo(caminho_arquivo):
     """Carrega o arquivo de sexo (Excel) e prepara o DataFrame para merge."""
@@ -56,12 +98,22 @@ def carregar_dados_sexo(caminho_arquivo):
             print("  ERRO: O arquivo de sexo não contém as colunas 'Nome' e/ou 'Sexo'.")
             return None
 
+        # Normaliza valores de Sexo (e.g., Desconhecido/Ambos para NaN, ou usa somente Masculino/Feminino)
+        # O melhor é deixar o valor como está para ter a referência manual
         df_sexo = df_sexo[['Nome', 'Sexo']].copy()
         
         # Limpa espaços em branco nos Nomes do arquivo de Sexo para garantir o merge
         df_sexo['Nome'] = df_sexo['Nome'].astype(str).str.strip().str.upper() # Adiciona .upper()
         df_sexo.drop_duplicates(subset=['Nome'], keep='first', inplace=True)
         
+        # Tratamento: Converte 'Desconhecido', 'Ambos' ou string vazia para NA para ser preenchido pela inferência
+        valores_a_anular = ['DESCONHECIDO', 'AMBOS', '']
+        df_sexo['Sexo'] = df_sexo['Sexo'].astype(str).str.upper()
+        df_sexo.loc[df_sexo['Sexo'].isin(valores_a_anular), 'Sexo'] = pd.NA
+        
+        # Converte o resto de volta para Capitalize/Normal
+        df_sexo['Sexo'] = df_sexo['Sexo'].str.capitalize()
+
         print(f"  Sucesso: {len(df_sexo)} nomes únicos carregados com dados de Sexo.")
         return df_sexo
         
@@ -111,12 +163,11 @@ def transformar_e_selecionar(caminho_arquivo_local, colunas_desejadas):
         print(f"  AVISO: 'Salário Simulado' renomeado para 'Valor Salário' em {nome_arquivo}.")
     
     # 3. Lista de Colunas Disponíveis
-    # Filtra COLUNAS_DESEJADAS (exceto 'Sexo', que será adicionada depois)
-    colunas_base_desejadas = [col for col in colunas_desejadas if col != 'Sexo']
+    # Filtra COLUNAS_DESEJADAS (agora mantendo 'Sexo', pois será a coluna de destino)
     
-    colunas_presentes = [col.strip() for col in colunas_base_desejadas if col.strip() in df.columns]
+    colunas_presentes = [col.strip() for col in colunas_desejadas if col.strip() in df.columns]
 
-    colunas_ausentes = [col.strip() for col in colunas_base_desejadas if col.strip() not in df.columns]
+    colunas_ausentes = [col.strip() for col in colunas_desejadas if col.strip() not in df.columns]
     
     if colunas_ausentes:
         print(f"  AVISO: Colunas não encontradas e IGNORADAS em {nome_arquivo}: {colunas_ausentes}")
@@ -175,6 +226,45 @@ def calcular_idade_faixa_etaria(df):
         print("AVISO: Coluna 'Nascimento' não encontrada. Idade não calculada.")
     return df
 
+# ***********************************************************************
+# NOVA FUNÇÃO PARA PROCESSAR CSVs AUXILIARES (FALTAS/ABSENTEÍSMO)
+# ***********************************************************************
+def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
+    """
+    Função dedicada para ler e processar arquivos CSV auxiliares (como Faltas).
+    Faz a limpeza básica, padronização do Nome e conversão de Data.
+    """
+    print(f"\n-> Processando arquivo auxiliar: {os.path.basename(caminho_arquivo)} para a tabela {nome_tabela}")
+    try:
+        # Tenta ler o CSV, usando latin1 por ser comum em dados brasileiros
+        df = pd.read_csv(caminho_arquivo, sep=';')
+    except FileNotFoundError:
+        print(f"  AVISO: Arquivo '{os.path.basename(caminho_arquivo)}' não encontrado. Pulando.")
+        return None
+    except Exception as e:
+        try:
+            # Tenta com vírgula como separador
+            df = pd.read_csv(caminho_arquivo, sep=';')
+        except Exception as e:
+            print(f"  ERRO CRÍTICO ao ler {os.path.basename(caminho_arquivo)} como CSV. Detalhes: {e}")
+            return None
+
+    # Limpeza básica e padronização das colunas
+    df.columns = df.columns.str.strip().str.replace(r'[^a-zA-Z0-9\s\(\)\%]', '', regex=True)
+    
+    # Padronização da coluna Nome
+    if 'Nome' in df.columns:
+        df['Nome'] = df['Nome'].astype(str).str.strip().str.upper()
+        print("  Coluna 'Nome' padronizada (Upper, Strip).")
+    
+    # Conversão da coluna Data
+    if 'Data' in df.columns:
+        df['Data'] = pd.to_datetime(df['Data'], errors='coerce', dayfirst=True)
+        print("  Coluna 'Data' convertida para DateTime.")
+        
+    print(f"  Tabela '{nome_tabela}' processada com {len(df)} linhas.")
+    return df
+
 
 # =======================================================================
 # 3. LÓGICA PRINCIPAL: CONSOLIDAÇÃO (ETL)
@@ -186,7 +276,7 @@ def etl_consolida_e_salva_csv(colunas_desejadas):
     lista_dataframes = []
     
     print("\n" + "="*70)
-    print(f"ETAPA 1/2: CONSOLIDAÇÃO E MERGE DE SEXO | Início: {time.ctime()}")
+    print(f"ETAPA 1/2: CONSOLIDAÇÃO E INFERÊNCIA DE SEXO | Início: {time.ctime()}")
     print("="*70)
 
     # PASSO 0: Carregar Dados Auxiliares (Sexo)
@@ -220,7 +310,8 @@ def etl_consolida_e_salva_csv(colunas_desejadas):
     
     # 3. Processamento e Consolidação
     for arquivo in arquivos_compativeis:
-        df_processado = transformar_e_selecionar(arquivo, colunas_desejadas)
+        # A coluna 'Sexo' pode vir aqui, mas será substituída pelo merge/inferência
+        df_processado = transformar_e_selecionar(arquivo, colunas_desejadas) 
         
         if df_processado is not None and not df_processado.empty:
             df_processado['Origem_Arquivo'] = os.path.basename(arquivo)
@@ -230,32 +321,65 @@ def etl_consolida_e_salva_csv(colunas_desejadas):
     if lista_dataframes:
         CONTEUDO_FINAL = pd.concat(lista_dataframes, ignore_index=True, sort=False)
         
-        # PASSO 5: MERGE COM DADOS DE SEXO (USANDO 'Nome')
-        # Trata o caso onde a coluna 'Sexo' já existe e a remove antes do merge.
-        if 'Sexo' in CONTEUDO_FINAL.columns:
-            print("-> Removendo coluna 'Sexo' existente antes do Merge para usar o Sexo Inferido.")
-            CONTEUDO_FINAL.drop(columns=['Sexo'], inplace=True, errors='ignore')
-            
+        # --- PASSO 5: MERGE E INFERÊNCIA CONDICIONAL DE SEXO (LÓGICA UNIFICADA) ---
+        
+        # 5.1 PREPARAÇÃO: Remove qualquer coluna 'Sexo' que tenha vindo dos arquivos brutos
+        CONTEUDO_FINAL.drop(columns=['Sexo'], inplace=True, errors='ignore')
+        
+        # Adiciona uma coluna 'Sexo' vazia para ser preenchida
+        if 'Sexo' not in CONTEUDO_FINAL.columns:
+            CONTEUDO_FINAL['Sexo'] = pd.NA
+
+        # 5.2 MERGE COM DADOS DE SEXO (Excel) - Prioridade Manual
         if df_sexo is not None and 'Nome' in CONTEUDO_FINAL.columns:
-            print("\n-> Realizando Merge dos dados consolidados com a informação de Sexo Inferido (Excel)...")
+            print("\n-> Realizando Merge com a informação de Sexo do Excel (Prioridade Manual)...")
             
-            # Merge (Left Join)
-            CONTEUDO_FINAL = pd.merge(
-                CONTEUDO_FINAL,
+            # Merge Left Join
+            df_merged = pd.merge(
+                CONTEUDO_FINAL.drop(columns=['Sexo'], errors='ignore'), 
                 df_sexo,
                 on='Nome',
                 how='left'
             )
-            print(f"  Merge concluído. {CONTEUDO_FINAL['Sexo'].count()} valores de Sexo adicionados.")
+            # Define o resultado do merge como o CONTEUDO_FINAL temporário
+            CONTEUDO_FINAL = df_merged
+            
+            print(f"  Merge concluído. {CONTEUDO_FINAL['Sexo'].count()} valores de Sexo manual/existente carregados.")
         else:
-            if 'Sexo' not in CONTEUDO_FINAL.columns:
-                CONTEUDO_FINAL['Sexo'] = pd.NA
-            print("  AVISO: Merge de Sexo ignorado (Arquivo de sexo não carregado ou Nome ausente).")
+            print("  AVISO: Arquivo de Sexo manual não carregado. Pulando merge.")
 
+        # 5.3 INFERÊNCIA CONDICIONAL: Aplica gender-guesser-br APENAS nos valores nulos.
         
+        # 5.3.1 Identifica os registros SEM Sexo (Nulos)
+        # O .isna() trata valores NA do Pandas e None
+        condicao_inferir = CONTEUDO_FINAL['Sexo'].isna()
+        df_a_inferir = CONTEUDO_FINAL[condicao_inferir].copy()
+        
+        if not df_a_inferir.empty:
+            total_a_inferir = len(df_a_inferir)
+            print(f"\n  -> Aplicando Inferência do IBGE (Lenta) a {total_a_inferir} registros NA/Nulos...")
+
+            # 5.3.2 Aplica a função de limpeza de nome
+            df_a_inferir['Primeiro_Nome'] = df_a_inferir['Nome'].apply(extrair_primeiro_nome)
+            
+            # 5.3.3 Aplica a função de inferência
+            novos_sexos = df_a_inferir['Primeiro_Nome'].apply(inferir_sexo_br)
+            
+            # 5.3.4 Atualiza o DataFrame principal (CONTEUDO_FINAL)
+            sucesso_br = novos_sexos.dropna()
+            
+            # O .loc garante que os novos valores sejam colocados DE VOLTA no DataFrame principal, APENAS nos nulos
+            CONTEUDO_FINAL.loc[sucesso_br.index, 'Sexo'] = sucesso_br
+            
+            print(f"  {sucesso_br.count()} valores de Sexo preenchidos por Inferência.")
+        else:
+            print("  Nenhum valor nulo (NA) de Sexo restante para inferência. Passo ignorado.")
+        
+        # --- FIM DO PASSO 5 ---
+
         # 6. Adiciona as colunas ausentes na consolidação final (se alguma faltou em todos)
         # Garante que todas as colunas desejadas estejam presentes
-        for col in [c.strip() for c in colunas_desejadas]:
+        for col in [str(coluna).strip() for coluna in colunas_desejadas if coluna is not None]:
             if col not in CONTEUDO_FINAL.columns:
                 CONTEUDO_FINAL[col] = pd.NA
         
@@ -282,7 +406,7 @@ def etl_consolida_e_salva_csv(colunas_desejadas):
 def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     """
     Recebe o DataFrame consolidado, limpa, cria o modelo estrela/snowflake 
-    e salva no arquivo final Excel de múltiplas abas.
+    e salva no arquivo final Excel de múltiplas abas, incluindo tabelas auxiliares.
     """
     if df_input is None or df_input.empty:
         print("ERRO: O DataFrame consolidado está vazio ou não foi gerado.")
@@ -293,6 +417,13 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     print("="*70)
 
     df = df_input.copy()
+    
+    # ********************************************************************
+    # ** NOVO PASSO: PROCESSAMENTO DAS TABELAS AUXILIARES **
+    # ********************************************************************
+    df_faltas = etl_processa_csv_auxiliar(ARQUIVO_FALTAS, 'Fato_Faltas')
+    df_abs = etl_processa_csv_auxiliar(ARQUIVO_ABS, 'Fato_Absenteismo')
+
 
     # 1. SELEÇÃO DE COLUNAS
     colunas_para_selecao = [col for col in colunas_desejadas if col in df.columns]
@@ -325,6 +456,12 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     if 'Descrição (T. Adm)' in df.columns:
         df['Descrição (T. Adm)'] = df['Descrição (T. Adm)'].fillna('NÃO INFORMADO')
         print("Valores nulos em 'Descrição (T. Adm)' preenchidos.")
+        
+    # NOVO: Preenche Sexo nulo com valor 'INFERÊNCIA FALHOU' (para fins de visualização)
+    if 'Sexo' in df.columns:
+        df['Sexo'] = df['Sexo'].fillna('Não Definido/Inferido')
+        print("Valores nulos em 'Sexo' preenchidos com 'Não Definido/Inferido'.")
+
 
     # 3. CONVERSÃO DE DATAS
     COLUNAS_DE_DATA = [col for col in colunas_desejadas if 'Data' in col or 'Admissão' in col or 'Nascimento' in col or 'Última Simulação' in col]
@@ -419,7 +556,7 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     cols_merge_pessoa = chave_merge_pessoa + ['Pessoa_ID']
 
     df_fato = pd.merge(df_fato, dim_pessoa[cols_merge_pessoa], 
-                        on=chave_merge_pessoa, how='left', suffixes=('', '_Pessoa_ID_drop'))
+                             on=chave_merge_pessoa, how='left', suffixes=('', '_Pessoa_ID_drop'))
     df_fato.drop(columns=[c for c in df_fato.columns if '_Pessoa_ID_drop' in c], inplace=True, errors='ignore')
     
     # Merge Cargo
@@ -449,7 +586,7 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     # ** ALTERAÇÃO: Adiciona 'CPF' à lista de colunas a serem descartadas **
     colunas_para_descartar = ['Nome', 'CPF', 'Cargo', 'C.Custo', 'Empresa', 'Filial', 'Sexo']
     df_fato.drop(columns=[col for col in colunas_para_descartar if col in df_fato.columns], 
-                  inplace=True, errors='ignore')
+                 inplace=True, errors='ignore')
 
 
     # B. Selecionar colunas para a Tabela Fato
@@ -502,10 +639,22 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
             # Dimensões Empresa e Filial (Hierárquicas)
             dim_filial.to_excel(writer, sheet_name='Dim_Filial', index=False) 
             dim_empresa.drop(columns=['Empresa']).to_excel(writer, sheet_name='Dim_Empresa', index=False) 
+            
+            # ********************************************************************
+            # ** SALVANDO AS NOVAS TABELAS AUXILIARES **
+            # ********************************************************************
+            if df_faltas is not None:
+                df_faltas.to_excel(writer, sheet_name='Fato_Faltas', index=False)
+                print("Tabela auxiliar 'Fato_Faltas' salva.")
+            if df_abs is not None:
+                df_abs.to_excel(writer, sheet_name='Fato_Absenteismo', index=False)
+                print("Tabela auxiliar 'Fato_Absenteismo' salva.")
+            
+            # ********************************************************************
 
         print("\n" + "="*70)
         print("Modelagem e salvamento CONCLUÍDOS com sucesso!")
-        print(f"O arquivo EXCEL '{ARQUIVO_FINAL_MODELADO}' (6 abas) está pronto.")
+        print(f"O arquivo EXCEL '{ARQUIVO_FINAL_MODELADO}' (6 + Auxiliares abas) está pronto.")
         print("Instrução para Power BI: As chaves 'Empresa_ID' e 'Filial_ID' ligam as dimensões à Fato, formando o Snowflake/Estrela.")
         print("="*70)
 
@@ -529,7 +678,6 @@ def run_full_etl():
 if __name__ == "__main__":
     # Verificação simples para lembrar de rodar o setup, caso a pasta de origem não exista
     if not os.path.exists(PASTA_ORIGEM_ONEDRIVE) or not os.path.exists(ARQUIVO_SEXO):
-        print("ALERTA: O ambiente de teste não foi encontrado.")
-
+        print("ALERTA: O ambiente de teste não foi encontrado. Verifique PASTA_ORIGEM_ONEDRIVE e ARQUIVO_SEXO.")
     else:
         run_full_etl()
