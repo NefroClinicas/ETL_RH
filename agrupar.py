@@ -231,45 +231,74 @@ def calcular_idade_faixa_etaria(df):
 # ***********************************************************************
 def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
     """
-    Função dedicada para ler e processar arquivos CSV auxiliares (como Faltas).
-    Faz a limpeza básica, padronização do Nome e conversão de Data.
+    Função dedicada para ler e processar arquivos CSV auxiliares (como Faltas ou Absenteísmo).
+    Faz a limpeza básica, padronização do Nome, limpeza de Horários, conversão de ABS e de Data.
     """
     print(f"\n-> Processando arquivo auxiliar: {os.path.basename(caminho_arquivo)} para a tabela {nome_tabela}")
     try:
         # Tenta ler o CSV, usando latin1 por ser comum em dados brasileiros
-        # Mantendo o sep=';' da sua última tentativa. Se a separação estiver errada,
-        # A data pode aparecer na coluna "Nome" ou "Data" com o dia da semana junto.
-        df = pd.read_csv(caminho_arquivo, sep=';')
+        # Mantendo o sep=';' da sua última tentativa.
+        df = pd.read_csv(caminho_arquivo, sep=';', encoding='latin1')
     except FileNotFoundError:
         print(f"  AVISO: Arquivo '{os.path.basename(caminho_arquivo)}' não encontrado. Pulando.")
         return None
     except Exception as e:
         try:
-            # Tenta com vírgula como separador (apenas para fallback, mantendo seu bloco original)
-            df = pd.read_csv(caminho_arquivo, sep=',')
+            # Tenta com vírgula como separador (fallback)
+            df = pd.read_csv(caminho_arquivo, sep=',', encoding='latin1')
         except Exception as e:
             print(f"  ERRO CRÍTICO ao ler {os.path.basename(caminho_arquivo)} como CSV. Detalhes: {e}")
             return None
 
-    # Limpeza básica e padronização das colunas
+    # Limpeza básica e padronização dos cabeçalhos das colunas
     df.columns = df.columns.str.strip().str.replace(r'[^a-zA-Z0-9\s\(\)%]', '', regex=True)
     
     # Padronização da coluna Nome
     if 'Nome' in df.columns:
         df['Nome'] = df['Nome'].astype(str).str.strip().str.upper()
         print("  Coluna 'Nome' padronizada (Upper, Strip).")
+        
+    # --------------------------------------------------------------------------------
+    # 🌟 1. NOVO: LIMPEZA DAS COLUNAS DE HORÁRIO (Removendo o :00 final)
+    # --------------------------------------------------------------------------------
+    colunas_horario = ['Previsto', 'Ausencia', 'Presenca']
     
-    # Conversão da coluna Data
+    for col in colunas_horario:
+        # Verifica se a coluna existe
+        if col in df.columns:
+            # Remove o padrão ":00" APENAS se estiver no final da string (usando regex '$')
+            df[col] = df[col].astype(str).str.replace(r':00$', '', regex=True)
+            # Remove ":00:00" em colunas de Absenteísmo.
+            df[col] = df[col].astype(str).str.replace(r'00:00$', '00', regex=True)
+            print(f"  Coluna '{col}' limpa (removido o sufixo :00).")
+    # --------------------------------------------------------------------------------
+    
+    # --------------------------------------------------------------------------------
+    # 🌟 2. NOVO: CONVERSÃO DA COLUNA 'ABS' PARA NÚMERO DECIMAL (%)
+    # --------------------------------------------------------------------------------
+    if 'ABS' in df.columns:
+        try:
+            # 1. Limpa o '%' e espaços
+            df['ABS'] = df['ABS'].astype(str).str.replace('%', '', regex=False).str.strip()
+            
+            # 2. Substitui a vírgula (,) por ponto (.) como separador decimal
+            df['ABS'] = df['ABS'].str.replace(',', '.', regex=False)
+            
+            # 3. Converte para número e divide por 100 (para decimal: 5.88% -> 0.0588)
+            df['ABS'] = pd.to_numeric(df['ABS'], errors='coerce') / 100
+            print("  Coluna 'ABS' convertida para número decimal (%).")
+        except Exception as e:
+            print(f"  AVISO: Falha ao converter coluna 'ABS' para numérico. Detalhes: {e}")
+    # --------------------------------------------------------------------------------
+    
+    # Conversão da coluna Data (mantida a correção anterior)
     if 'Data' in df.columns:
         
-        # 1. REMOVER O DIA DA SEMANA (e a vírgula que o segue)
-        # O formato é: "DiaDaSemana, DD/MM/AAAA".
-        # Usamos uma expressão regular (regex) para encontrar a primeira vírgula e tudo que a precede, e substituir por uma string vazia.
+        # 1. REMOVER O DIA DA SEMANA
         # O padrão '.*,' busca qualquer coisa (.*) até a primeira vírgula (,) e a própria vírgula.
         df['Data'] = df['Data'].astype(str).str.replace(r'.*,', '', regex=True).str.strip()
         
         # 2. CONVERSÃO FINAL PARA DATETIME
-        # O dayfirst=True é crucial para datas no formato DD/MM/AAAA.
         df['Data'] = pd.to_datetime(df['Data'], errors='coerce', dayfirst=True)
         print("  Coluna 'Data' limpa (dia da semana removido) e convertida para DateTime.")
         
