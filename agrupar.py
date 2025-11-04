@@ -12,10 +12,12 @@ PASTA_TRABALHO = r"C:\Users\LuisGuilhermeMoraesd\OneDrive - Nefroclinicas Servi�
 # Nomes dos arquivos de saída e auxiliares
 ARQUIVO_SEXO = os.path.join(PASTA_TRABALHO, "Nomes_e_Sexo_Inferido.xlsx")
 ARQUIVO_INTERMEDIARIO_CSV = os.path.join(PASTA_TRABALHO, "Base_BI_Consolidada2.csv")
+
+
 ARQUIVO_FINAL_MODELADO = os.path.join(PASTA_TRABALHO, "Base_MODELADA_PowerBI_V4.xlsx")
 # Arquivos Auxiliares (Faltas e Absenteísmo)
-ARQUIVO_FALTAS = os.path.join(PASTA_TRABALHO, "faltas.csv")
-ARQUIVO_ABS = os.path.join(PASTA_TRABALHO, "ABS.csv")
+ARQUIVO_FALTAS = os.path.join(PASTA_TRABALHO, "faltas_cpf.csv")
+ARQUIVO_ABS = os.path.join(PASTA_TRABALHO, "abs_atualizado.csv")
 
 
 # Lista EXATA das colunas a serem extraídas e usadas no modelo
@@ -82,7 +84,17 @@ def inferir_sexo_br(primeiro_nome):
         # print(f"Erro ao consultar nome {primeiro_nome}: {e}") # Descomente para debug
         return None 
 # -----------------------------------------------------------------------
-
+def formatar_cpf(cpf):
+    cpf = str(cpf)
+    cpf = re.sub(r'[^0-9]', '', cpf)
+    
+    # 2. Verifica se o resultado tem 11 dígitos
+    if len(cpf) == 11:
+        # 3. Aplica a máscara de formatação
+        return f'{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}'
+    else:
+        # Se não tiver 11 dígitos, retorna o valor original (ou None, dependendo da necessidade)
+        return None
 
 def carregar_dados_sexo(caminho_arquivo):
     """Carrega o arquivo de sexo (Excel) e prepara o DataFrame para merge."""
@@ -232,13 +244,12 @@ def calcular_idade_faixa_etaria(df):
 def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
     """
     Função dedicada para ler e processar arquivos CSV auxiliares (como Faltas ou Absenteísmo).
-    Faz a limpeza básica, padronização do Nome, limpeza de Horários, conversão de ABS e de Data.
+    Faz a limpeza básica, padronização do Nome, limpeza de Horários (segundos), conversão de ABS e de Data.
     """
     print(f"\n-> Processando arquivo auxiliar: {os.path.basename(caminho_arquivo)} para a tabela {nome_tabela}")
     try:
-        # Tenta ler o CSV, usando latin1 por ser comum em dados brasileiros
-        # Mantendo o sep=';' da sua última tentativa.
-        df = pd.read_csv(caminho_arquivo, sep=';', encoding='latin1')
+        # Tenta ler o CSV, usando utf-8 na primeira tentativa, como você alterou
+        df = pd.read_csv(caminho_arquivo, sep=';', encoding='utf-8')
     except FileNotFoundError:
         print(f"  AVISO: Arquivo '{os.path.basename(caminho_arquivo)}' não encontrado. Pulando.")
         return None
@@ -251,59 +262,45 @@ def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
             return None
 
     # Limpeza básica e padronização dos cabeçalhos das colunas
+    # ... (Função etl_processa_csv_auxiliar) ...
+
+    # Limpeza básica e padronização dos cabeçalhos das colunas
     df.columns = df.columns.str.strip().str.replace(r'[^a-zA-Z0-9\s\(\)%]', '', regex=True)
     
-    # Padronização da coluna Nome
+# Padronização da coluna Nome
     if 'Nome' in df.columns:
         df['Nome'] = df['Nome'].astype(str).str.strip().str.upper()
         print("  Coluna 'Nome' padronizada (Upper, Strip).")
-        
-    # --------------------------------------------------------------------------------
-    # 🌟 1. NOVO: LIMPEZA DAS COLUNAS DE HORÁRIO (Removendo o :00 final)
-    # --------------------------------------------------------------------------------
-    colunas_horario = ['Previsto', 'Ausencia', 'Presenca']
-    
-    for col in colunas_horario:
-        # Verifica se a coluna existe
+
+# --------------------------------------------------------------------------------
+# 🌟 LIMPEZA E PADRONIZAÇÃO DAS COLUNAS DE HORÁRIO
+# --------------------------------------------------------------------------------
+    colunas_para_limpar = ['Previsto', 'Ausencia', 'Presenca']
+
+    for col in colunas_para_limpar:
         if col in df.columns:
-            # Remove o padrão ":00" APENAS se estiver no final da string (usando regex '$')
-            df[col] = df[col].astype(str).str.replace(r':00$', '', regex=True)
-            # Remove ":00:00" em colunas de Absenteísmo.
-            df[col] = df[col].astype(str).str.replace(r'00:00$', '00', regex=True)
-            print(f"  Coluna '{col}' limpa (removido o sufixo :00).")
-    # --------------------------------------------------------------------------------
-    
-    # --------------------------------------------------------------------------------
-    # 🌟 2. NOVO: CONVERSÃO DA COLUNA 'ABS' PARA NÚMERO DECIMAL (%)
-    # --------------------------------------------------------------------------------
-    if 'ABS' in df.columns:
-        try:
-            # 1. Limpa o '%' e espaços
-            df['ABS'] = df['ABS'].astype(str).str.replace('%', '', regex=False).str.strip()
-            
-            # 2. Substitui a vírgula (,) por ponto (.) como separador decimal
-            df['ABS'] = df['ABS'].str.replace(',', '.', regex=False)
-            
-            # 3. Converte para número e divide por 100 (para decimal: 5.88% -> 0.0588)
-            df['ABS'] = pd.to_numeric(df['ABS'], errors='coerce') / 100
-            print("  Coluna 'ABS' convertida para número decimal (%).")
-        except Exception as e:
-            print(f"  AVISO: Falha ao converter coluna 'ABS' para numérico. Detalhes: {e}")
-    # --------------------------------------------------------------------------------
-    
-    # Conversão da coluna Data (mantida a correção anterior)
-    if 'Data' in df.columns:
-        
-        # 1. REMOVER O DIA DA SEMANA
-        # O padrão '.*,' busca qualquer coisa (.*) até a primeira vírgula (,) e a própria vírgula.
-        df['Data'] = df['Data'].astype(str).str.replace(r'.*,', '', regex=True).str.strip()
-        
-        # 2. CONVERSÃO FINAL PARA DATETIME
-        df['Data'] = pd.to_datetime(df['Data'], errors='coerce', dayfirst=True)
-        print("  Coluna 'Data' limpa (dia da semana removido) e convertida para DateTime.")
-        
+            df[col] = (
+                df[col]
+                .astype(str)
+                .str.strip()
+            # 1️⃣ Remove segundos no final (qualquer :ss)
+                .str.replace(r'(?<=\d{2}):\d{2}$', '', regex=True)
+            # 2️⃣ Corrige formatos errados tipo "07:8" -> "07:08"
+                .apply(lambda x: re.sub(r'^(\d{1,3}):(\d{1})$', r'\1:0\2', x))
+            # 3️⃣ Remove espaços extras
+                .str.strip()
+        )
+
+            print(f"  ✅ Coluna '{col}' padronizada para HH:MM (sem segundos).")
+        else:
+            print(f"  ⚠️ Coluna '{col}' não encontrada para limpeza.")
+
+# --------------------------------------------------------------------------------
+# Finalização
+# --------------------------------------------------------------------------------
     print(f"  Tabela '{nome_tabela}' processada com {len(df)} linhas.")
     return df
+
 
 
 # =======================================================================
