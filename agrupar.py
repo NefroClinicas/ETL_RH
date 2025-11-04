@@ -4,6 +4,7 @@ import time
 from datetime import date
 import re
 from gender_guesser_br import Genero
+import unicodedata
 
 
 PASTA_ORIGEM_ONEDRIVE = r"C:\Users\LuisGuilhermeMoraesd\Nefroclinicas Serviço de Nefrologia e Dialise Ltda\Nefroclinicas - 07 - DADOS (1)"
@@ -95,6 +96,21 @@ def formatar_cpf(cpf):
     else:
         # Se não tiver 11 dígitos, retorna o valor original (ou None, dependendo da necessidade)
         return None
+def padronizar_nome_pessoa(nome):
+    """
+    Padroniza o nome de pessoa para comparação/merge.
+    - Remove acentos e caracteres especiais
+    - Converte para UPPERCASE
+    - Remove espaços extras
+    """
+    if pd.isna(nome):
+        return None
+    nome = str(nome).strip()
+    nfkd = unicodedata.normalize('NFKD', nome)
+    nome_sem_acento = nfkd.encode('ASCII', 'ignore').decode('utf-8')
+    nome_limpo = re.sub(r'[^A-Z\s]', '', nome_sem_acento.upper())
+    nome_limpo = re.sub(r'\s+', ' ', nome_limpo)  # remove espaços duplos
+    return nome_limpo.strip()
 
 def carregar_dados_sexo(caminho_arquivo):
     """Carrega o arquivo de sexo (Excel) e prepara o DataFrame para merge."""
@@ -260,7 +276,9 @@ def etl_processa_csv_auxiliar(caminho_arquivo, nome_tabela):
         except Exception as e:
             print(f"  ERRO CRÍTICO ao ler {os.path.basename(caminho_arquivo)} como CSV. Detalhes: {e}")
             return None
-
+    if 'Nome' in df.columns:
+        df['Nome'] = df['Nome'].apply(padronizar_nome_pessoa)
+        print("  🔤 Coluna 'Nome' padronizada (igual à Dim_Pessoa).")
     # Limpeza básica e padronização dos cabeçalhos das colunas
     # ... (Função etl_processa_csv_auxiliar) ...
 
@@ -564,6 +582,11 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     # ** CÁLCULO DE IDADE E FAIXA ETÁRIA **
     # ********************************************************************
     dim_pessoa = calcular_idade_faixa_etaria(dim_pessoa)
+    if 'Nome' in dim_pessoa.columns:
+        dim_pessoa['Nome'] = dim_pessoa['Nome'].apply(padronizar_nome_pessoa)
+    if 'Nome (Cadastro O. Contrato)' in dim_pessoa.columns:
+        dim_pessoa['Nome (Cadastro O. Contrato)'] = dim_pessoa['Nome (Cadastro O. Contrato)'].apply(padronizar_nome_pessoa)
+    print("Colunas de nome padronizadas para comparação e merges.")
     
     print(f"Dimensão Pessoa criada com {len(dim_pessoa)} registros ÚNICOS, incluindo 'Sexo'.")
 
@@ -589,12 +612,31 @@ def etl_modela_e_salva_excel(df_input, colunas_desejadas):
     # 1. Merges Padrão (Pessoa, Cargo, CCusto, Empresa, Filial)
     
     # ** ALTERAÇÃO: Merge Pessoa (Chave Única: CPF) **
-    chave_merge_pessoa = ['CPF']
-    cols_merge_pessoa = chave_merge_pessoa + ['Pessoa_ID']
+   # ** ALTERAÇÃO: Merge Pessoa (Chave Única: CPF) **
+    # 🚀 MERGE DIM_PESSOA PRIORIZANDO CPF, COM FALLBACK POR NOME PADRONIZADO 🚀
+    if 'CPF' in df_fato.columns and 'CPF' in dim_pessoa.columns:
+        # Primeira tentativa: merge por CPF
+        df_fato = pd.merge(
+            df_fato, dim_pessoa[['Pessoa_ID', 'CPF']],
+            on='CPF', how='left'
+        )
 
-    df_fato = pd.merge(df_fato, dim_pessoa[cols_merge_pessoa], 
-                             on=chave_merge_pessoa, how='left', suffixes=('', '_Pessoa_ID_drop'))
-    df_fato.drop(columns=[c for c in df_fato.columns if '_Pessoa_ID_drop' in c], inplace=True, errors='ignore')
+    # Verifica quem ainda ficou sem Pessoa_ID
+    faltando_pessoa = df_fato['Pessoa_ID'].isna().sum()
+    if faltando_pessoa > 0 and 'Nome' in df_fato.columns:
+        print(f"⚠️ {faltando_pessoa} registros sem Pessoa_ID via CPF. Tentando merge por Nome padronizado...")
+        
+        df_fato['Nome_Padrao'] = df_fato['Nome'].apply(padronizar_nome_pessoa)
+        df_fato = pd.merge(
+            df_fato.drop(columns=['Pessoa_ID'], errors='ignore'),
+            dim_pessoa[['Pessoa_ID', 'Nome']].rename(columns={'Nome': 'Nome_Padrao'}),
+            on='Nome_Padrao', how='left'
+        )
+
+    df_fato.drop(columns=['Nome_Padrao'], inplace=True, errors='ignore')
+    print(f"✅ Merge final de Pessoa_ID concluído. Total de registros com ID: {df_fato['Pessoa_ID'].notna().sum()}")
+
+
     
     # Merge Cargo
     df_fato = pd.merge(df_fato, dim_cargo[['Cargo', 'Cargo_ID']], on='Cargo', how='left')
